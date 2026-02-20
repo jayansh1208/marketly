@@ -176,9 +176,9 @@ const CheckoutForm = () => {
 
             clearCart();
 
-            // Redirect to home after 2 seconds
+            // Redirect to orders page after 2 seconds
             setTimeout(() => {
-                navigate('/');
+                navigate('/orders');
             }, 2000);
         } catch (error) {
             const errData = error.response?.data;
