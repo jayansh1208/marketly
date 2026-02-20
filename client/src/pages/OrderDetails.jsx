@@ -92,6 +92,12 @@ const OrderDetails = () => {
                             <span>Shipping</span>
                             <span>Free</span>
                         </div>
+                        <div className="flex justify-between">
+                            <span>Payment Status</span>
+                            <span className={order.isPaid ? 'text-green-600 font-semibold' : 'text-orange-600 font-semibold'}>
+                                {order.isPaid ? 'Paid' : (order.paymentMethod === 'cod' ? 'COD (Pending)' : 'Unpaid')}
+                            </span>
+                        </div>
                         <div className="border-t pt-2 flex justify-between font-bold text-lg">
                             <span>Total</span>
                             <span>{formatPrice(order.totalPrice)}</span>

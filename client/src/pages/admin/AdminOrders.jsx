@@ -66,7 +66,9 @@ const AdminOrders = () => {
                             </div>
                             <div>
                                 <p className="text-sm text-gray-500">Payment</p>
-                                <p className="font-semibold text-green-600">Paid</p>
+                                <p className={`font-semibold ${order.isPaid ? 'text-green-600' : 'text-orange-600'}`}>
+                                    {order.isPaid ? 'Paid' : (order.paymentMethod === 'cod' ? 'COD (Pending)' : 'Unpaid')}
+                                </p>
                             </div>
                             <div>
                                 <p className="text-sm text-gray-500">Shipping</p>

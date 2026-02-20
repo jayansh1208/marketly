@@ -80,46 +80,6 @@ exports.createOrder = async (req, res, next) => {
             { items: [], totalPrice: 0 }
         );
 
-        // Try to send order confirmation email
-        try {
-            const sendEmail = require('../utils/sendEmail');
-
-            const htmlMessage = `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #eaeaea; border-radius: 10px;">
-                    <h1 style="color: #4f46e5; text-align: center;">Order Received!</h1>
-                    <p style="font-size: 16px;">Hi <strong>${req.user.name}</strong>,</p>
-                    <p style="font-size: 16px;">Great news! We've received your order and are currently processing it.</p>
-                    
-                    <h3 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 30px;">Order Summary (ID: ${order._id})</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        ${orderItems.map(item => `
-                            <li style="margin-bottom: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #f9f9f9; padding-bottom: 10px;">
-                                <span style="font-size: 15px;">${item.quantity}x ${item.name}</span>
-                                <strong style="font-size: 15px;">$${(item.price * item.quantity).toFixed(2)}</strong>
-                            </li>
-                        `).join('')}
-                    </ul>
-                    
-                    <div style="background-color: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 20px;">
-                        <p style="font-size: 18px; display: flex; justify-content: space-between; margin: 0 0 10px 0;">
-                            <strong>Total Paid:</strong>
-                            <strong style="color: #4f46e5;">$${totalPrice.toFixed(2)}</strong>
-                        </p>
-                        <p style="margin: 0;"><strong>Payment Method:</strong> ${typeof paymentInfo === 'string' ? paymentInfo.toUpperCase() : (paymentInfo.type || 'COD').toUpperCase()}</p>
-                    </div>
-                    
-                    <p style="margin-top: 30px; font-size: 14px; color: #666; text-align: center;">We will notify you once your order ships.</p>
-                </div>
-            `;
-
-            await sendEmail({
-                email: req.user.email,
-                subject: 'Marketly - Order Confirmation',
-                html: htmlMessage
-            });
-        } catch (emailError) {
-            console.error('Error sending confirmation email:', emailError);
-        }
 
         res.status(201).json({
             success: true,
