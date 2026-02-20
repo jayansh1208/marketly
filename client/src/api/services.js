@@ -25,22 +25,22 @@ export const authService = {
 export const productService = {
     getProducts: async (params = {}) => {
         const response = await api.get('/products', { params });
-        return response.data;
+        return response.data.data; // Extract products array from {success, count, data}
     },
 
     getProduct: async (id) => {
         const response = await api.get(`/products/${id}`);
-        return response.data;
+        return response.data.data; // Extract single product from {success, data}
     },
 
     createProduct: async (productData) => {
         const response = await api.post('/products', productData);
-        return response.data;
+        return response.data.data; // Extract created product from {success, data}
     },
 
     updateProduct: async (id, productData) => {
         const response = await api.put(`/products/${id}`, productData);
-        return response.data;
+        return response.data.data; // Extract updated product from {success, data}
     },
 
     deleteProduct: async (id) => {
@@ -52,54 +52,54 @@ export const productService = {
 export const cartService = {
     getCart: async () => {
         const response = await api.get('/cart');
-        return response.data;
+        return response.data.data;
     },
 
     addToCart: async (productId, quantity) => {
         const response = await api.post('/cart/add', { productId, quantity });
-        return response.data;
+        return response.data.data;
     },
 
     updateCartItem: async (productId, quantity) => {
         const response = await api.put('/cart/update', { productId, quantity });
-        return response.data;
+        return response.data.data;
     },
 
     removeFromCart: async (productId) => {
         const response = await api.delete(`/cart/remove/${productId}`);
-        return response.data;
+        return response.data.data;
     },
 
     clearCart: async () => {
         const response = await api.delete('/cart/clear');
-        return response.data;
+        return response.data.data;
     }
 };
 
 export const orderService = {
     createOrder: async (orderData) => {
         const response = await api.post('/orders', orderData);
-        return response.data;
+        return response.data.data;
     },
 
     getMyOrders: async () => {
         const response = await api.get('/orders/myorders');
-        return response.data;
+        return response.data.data;
     },
 
     getOrderById: async (id) => {
         const response = await api.get(`/orders/${id}`);
-        return response.data;
+        return response.data.data;
     },
 
     getAllOrders: async () => {
         const response = await api.get('/orders');
-        return response.data;
+        return response.data.data;
     },
 
     updateOrderStatus: async (id, status) => {
         const response = await api.put(`/orders/${id}/status`, { orderStatus: status });
-        return response.data;
+        return response.data.data;
     }
 };
 
