@@ -178,6 +178,12 @@ exports.updateOrderStatus = async (req, res, next) => {
 
         if (orderStatus === 'Delivered') {
             order.deliveredAt = Date.now();
+
+            // If the order was COD and not paid yet, mark it as paid upon delivery
+            if (!order.isPaid && order.paymentMethod === 'cod') {
+                order.isPaid = true;
+                order.paidAt = Date.now();
+            }
         }
 
         await order.save();
