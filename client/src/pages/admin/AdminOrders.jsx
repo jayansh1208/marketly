@@ -15,7 +15,7 @@ const AdminOrders = () => {
     const fetchOrders = async () => {
         try {
             const response = await orderService.getAllOrders();
-            setOrders(response.data);
+            setOrders(response);
         } catch (error) {
             console.error(error);
         } finally {

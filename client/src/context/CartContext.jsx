@@ -31,8 +31,8 @@ export const CartProvider = ({ children }) => {
         try {
             setLoading(true);
             const response = await cartService.getCart();
-            console.log('Cart fetched:', response.data);
-            setCart(response.data || { items: [], totalPrice: 0 });
+            console.log('Cart fetched:', response);
+            setCart(response || { items: [], totalPrice: 0 });
         } catch (error) {
             console.error('Error fetching cart:', error);
             setCart({ items: [], totalPrice: 0 });
@@ -44,8 +44,8 @@ export const CartProvider = ({ children }) => {
     const addToCart = async (productId, quantity = 1) => {
         try {
             const response = await cartService.addToCart(productId, quantity);
-            console.log('Item added to cart:', response.data);
-            setCart(response.data);
+            console.log('Item added to cart:', response);
+            setCart(response);
             toast.success('Added to cart!');
         } catch (error) {
             console.error('Add to cart error:', error);
@@ -57,8 +57,8 @@ export const CartProvider = ({ children }) => {
     const updateQuantity = async (productId, quantity) => {
         try {
             const response = await cartService.updateCartItem(productId, quantity);
-            console.log('Cart updated:', response.data);
-            setCart(response.data);
+            console.log('Cart updated:', response);
+            setCart(response);
         } catch (error) {
             console.error('Update quantity error:', error);
             toast.error(error.message || 'Failed to update quantity');
@@ -69,8 +69,8 @@ export const CartProvider = ({ children }) => {
     const removeItem = async (productId) => {
         try {
             const response = await cartService.removeFromCart(productId);
-            console.log('Item removed:', response.data);
-            setCart(response.data);
+            console.log('Item removed:', response);
+            setCart(response);
             toast.success('Item removed from cart');
         } catch (error) {
             console.error('Remove item error:', error);
@@ -82,8 +82,8 @@ export const CartProvider = ({ children }) => {
     const clearCart = async () => {
         try {
             const response = await cartService.clearCart();
-            console.log('Cart cleared:', response.data);
-            setCart(response.data || { items: [], totalPrice: 0 });
+            console.log('Cart cleared:', response);
+            setCart(response || { items: [], totalPrice: 0 });
         } catch (error) {
             console.error('Clear cart error:', error);
             toast.error(error.message || 'Failed to clear cart');

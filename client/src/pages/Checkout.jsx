@@ -63,7 +63,9 @@ const CardPaymentForm = ({ shippingAddress, cart, cartTotal, clearCart, navigate
             clearCart();
             navigate('/orders');
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Payment failed');
+            const errData = error.response?.data;
+            const errMsg = errData?.errors ? errData.errors[0].message : (errData?.message || 'Payment failed');
+            toast.error(errMsg);
         } finally {
             setLoading(false);
         }
@@ -131,6 +133,16 @@ const CheckoutForm = () => {
         { number: 3, name: 'Payment', icon: '💳' }
     ];
 
+    const handleShippingSubmit = (e) => {
+        if (e) e.preventDefault();
+        const { fullName, address, city, postalCode, country, phone } = shippingAddress;
+        if (!fullName || !address || !city || !postalCode || !country || !phone) {
+            toast.error('Please fill in all shipping fields');
+            return;
+        }
+        setCurrentStep(3);
+    };
+
     const handleCODOrder = async () => {
         setLoading(true);
         try {
@@ -169,7 +181,9 @@ const CheckoutForm = () => {
                 navigate('/');
             }, 2000);
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Order failed');
+            const errData = error.response?.data;
+            const errMsg = errData?.errors ? errData.errors[0].message : (errData?.message || 'Order failed');
+            toast.error(errMsg);
         } finally {
             setLoading(false);
         }
@@ -210,7 +224,9 @@ const CheckoutForm = () => {
             clearCart();
             navigate('/orders');
         } catch (error) {
-            toast.error(error.response?.data?.message || 'Payment failed');
+            const errData = error.response?.data;
+            const errMsg = errData?.errors ? errData.errors[0].message : (errData?.message || 'Payment failed');
+            toast.error(errMsg);
         } finally {
             setLoading(false);
         }
@@ -390,7 +406,7 @@ const CheckoutForm = () => {
                                         <motion.button
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
-                                            onClick={() => setCurrentStep(3)}
+                                            onClick={handleShippingSubmit}
                                             className="btn-primary flex-1"
                                         >
                                             Continue to Payment
@@ -468,16 +484,22 @@ const CheckoutForm = () => {
 
                                     {/* Card Payment Form - Only load Stripe when needed */}
                                     {paymentMethod === 'card' && (
-                                        <Elements stripe={loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY || '')}>
-                                            <CardPaymentForm
-                                                shippingAddress={shippingAddress}
-                                                cart={cart}
-                                                cartTotal={cartTotal}
-                                                clearCart={clearCart}
-                                                navigate={navigate}
-                                                setCurrentStep={setCurrentStep}
-                                            />
-                                        </Elements>
+                                        import.meta.env.VITE_STRIPE_PUBLIC_KEY ? (
+                                            <Elements stripe={loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)}>
+                                                <CardPaymentForm
+                                                    shippingAddress={shippingAddress}
+                                                    cart={cart}
+                                                    cartTotal={cartTotal}
+                                                    clearCart={clearCart}
+                                                    navigate={navigate}
+                                                    setCurrentStep={setCurrentStep}
+                                                />
+                                            </Elements>
+                                        ) : (
+                                            <div className="p-4 bg-red-50 text-red-600 rounded-lg text-center font-medium">
+                                                Stripe is not currently configured for this environment. Please choose another payment method.
+                                            </div>
+                                        )
                                     )}
 
                                     {/* COD Confirmation */}

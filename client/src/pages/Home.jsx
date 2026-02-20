@@ -15,7 +15,7 @@ const Home = () => {
     const fetchFeaturedProducts = async () => {
         try {
             const response = await productService.getProducts({ sort: 'latest' });
-            setProducts(response.data.slice(0, 8));
+            setProducts(response.slice(0, 8));
         } catch (error) {
             console.error(error);
         } finally {

@@ -16,7 +16,7 @@ const OrderHistory = () => {
     const fetchOrders = async () => {
         try {
             const response = await orderService.getMyOrders();
-            setOrders(response.data);
+            setOrders(response);
         } catch (error) {
             console.error(error);
         } finally {

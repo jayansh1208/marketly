@@ -28,7 +28,7 @@ const Products = () => {
             const params = { ...filters };
             if (params.category === 'All') delete params.category;
             const response = await productService.getProducts(params);
-            setProducts(response.data);
+            setProducts(response);
         } catch (error) {
             console.error(error);
         } finally {

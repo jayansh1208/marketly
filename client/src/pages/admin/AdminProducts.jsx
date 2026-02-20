@@ -28,7 +28,7 @@ const AdminProducts = () => {
         try {
             setLoading(true);
             const response = await productService.getProducts();
-            setProducts(response.data);
+            setProducts(response);
         } catch (error) {
             console.error('Fetch products error:', error);
             toast.error('Failed to load products');

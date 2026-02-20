@@ -24,7 +24,7 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
         try {
             const response = await productService.getProduct(id);
-            setProduct(response.data);
+            setProduct(response);
         } catch (error) {
             toast.error('Product not found');
             navigate('/products');
