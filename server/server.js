@@ -19,6 +19,11 @@ const app = express();
 // Connect to database
 connectDB();
 
+// Trust proxy for secure cookies behind Railway load balancer
+if (process.env.NODE_ENV === 'production') {
+    app.set('trust proxy', 1);
+}
+
 // CORS configuration
 const corsOptions = {
     origin: [
